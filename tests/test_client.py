@@ -101,6 +101,38 @@ def test_submit_run_sends_multipart_and_params():
 
 
 @responses.activate
+def test_cancel_run_posts():
+    responses.add(
+        responses.POST,
+        f"{BASE}/ga4gh/wes/v1/runs/r1/cancel",
+        json={"run_id": "r1"},
+        status=200,
+    )
+    assert _client().cancel_run("r1") == {"run_id": "r1"}
+    assert responses.calls[0].request.method == "POST"
+
+
+@responses.activate
+def test_list_runs_sends_pagination_params():
+    responses.add(responses.GET, f"{BASE}/ga4gh/wes/v1/runs", json={"runs": []}, status=200)
+    _client().list_runs(page_size=3, page_token="tok")
+    url = responses.calls[0].request.url
+    assert "page_size=3" in url
+    assert "page_token=tok" in url
+
+
+@responses.activate
+def test_get_run_task_hits_nested_url():
+    responses.add(
+        responses.GET,
+        f"{BASE}/ga4gh/wes/v1/runs/r1/tasks/2",
+        json={"id": "2"},
+        status=200,
+    )
+    assert _client().get_run_task("r1", "2")["id"] == "2"
+
+
+@responses.activate
 def test_error_body_surfaces_via_connection_error():
     responses.add(
         responses.GET,
@@ -134,10 +166,13 @@ def test_stage_paste_uses_histories_and_tools_clients():
         json={"outputs": [{"id": "hda1"}], "jobs": [{"id": "job1"}]},
         status=200,
     )
-    staged = _client().stage_paste("content", name="thing", ext="txt")
+    staged = _client().stage_paste("the content", name="thing", ext="txt")
     assert staged == {"history_id": "h1", "hda_id": "hda1"}
-    # The paste went through BioBlend's tools client (POST /api/tools).
+    # The paste went through BioBlend's tools client (POST /api/tools) and
+    # carried the actual content + dataset name -- not just an empty url_paste.
     paste_body = responses.calls[1].request.body
     if isinstance(paste_body, bytes):
         paste_body = paste_body.decode()
     assert "url_paste" in paste_body
+    assert "the content" in paste_body
+    assert "thing" in paste_body
