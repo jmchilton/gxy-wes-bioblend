@@ -9,7 +9,7 @@ handling, request plumbing, and upload/history/job abstractions.
     uvx gxy-wes-bioblend service-info --galaxy-url http://localhost:8080
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0.dev0"
 
 PROJECT_NAME = "gxy-wes-bioblend"
 PROJECT_OWNER = "galaxyproject"
