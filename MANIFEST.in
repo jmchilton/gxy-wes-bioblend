@@ -1,0 +1,3 @@
+include *.md *.rst LICENSE requirements.txt
+recursive-include gxy_wes_bioblend/examples *.yml *.ga
+include gxy_wes_bioblend/py.typed

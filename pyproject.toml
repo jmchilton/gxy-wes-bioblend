@@ -1,0 +1,95 @@
+[build-system]
+requires = ["setuptools>=77.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gxy-wes-bioblend"
+dynamic = ["version", "dependencies"]
+description = "A Galaxy GA4GH WES client and CLI built on BioBlend's client layer"
+readme = "README.md"
+authors = [
+    {name = "Galaxy Project and Community", email = "jmchilton@gmail.com"},
+]
+license = "MIT"
+license-files = [
+    "LICENSE",
+]
+keywords = ["galaxy", "ga4gh", "wes", "workflows", "bioblend"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Testing",
+]
+requires-python = ">=3.9"
+
+[project.scripts]
+gxy-wes-bioblend = "gxy_wes_bioblend.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/jmchilton/gxy-wes-bioblend"
+
+[dependency-groups]
+lint = [
+    "black",
+    "flake8",
+    "flake8-bugbear",
+    "isort",
+    "ruff",
+]
+mypy = [
+    "mypy",
+    "types-requests",
+]
+test = [
+    "coverage",
+    "pytest",
+    {include-group = "dev"},
+]
+dev = [
+    "responses",
+]
+docs = [
+    "sphinx",
+    "myst-parser",
+    "sphinx-argparse",
+    "pydata-sphinx-theme",
+]
+build = [
+    "build",
+    "twine",
+]
+
+[tool.uv]
+default-groups = ["test", "lint", "mypy", "docs"]
+
+[tool.isort]
+profile = "black"
+line_length = 120
+known_first_party = ["gxy_wes_bioblend"]
+force_alphabetical_sort_within_sections = true
+
+[tool.black]
+line-length = 120
+
+[tool.setuptools.dynamic]
+version = {attr = "gxy_wes_bioblend.__version__"}
+dependencies = {file = "requirements.txt"}
+
+[tool.setuptools.package-data]
+"gxy_wes_bioblend" = ["py.typed"]
+"gxy_wes_bioblend.examples" = ["*.yml", "*.ga"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["gxy_wes_bioblend*"]

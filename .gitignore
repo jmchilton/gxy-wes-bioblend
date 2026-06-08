@@ -1,0 +1,45 @@
+*.py[cod]
+
+# C extensions
+*.so
+
+# Packages
+.eggs
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+sdist
+develop-eggs
+.installed.cfg
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+.pytest_cache
+htmlcov
+
+# Caches
+.mypy_cache
+.ruff_cache
+
+# Virtualenvs
+.venv
+.venv3
+
+# uv
+# (uv.lock is committed)
+
+# Sphinx
+docs/_build
+
+# Editors / OS
+.idea
+.vscode
+*~
+.DS_Store

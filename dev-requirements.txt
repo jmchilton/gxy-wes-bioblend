@@ -1,0 +1,23 @@
+# For testing
+pytest
+responses
+coverage
+
+# To check type annotations
+mypy
+types-requests
+
+# Used for code checking.
+black
+flake8
+flake8-bugbear
+isort
+ruff
+
+# To build docs
+-r docs/requirements.txt
+
+# For release
+build
+twine
+tox
